@@ -1,1 +1,62 @@
-<h2>Deposit Page</h2>
+<div class="card shadow">
+  <div class="card-header bg-warning">
+    <h4 class="mb-0">Deposit Money</h4>
+  </div>
+
+  <div class="card-body">
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="depositForm" (ngSubmit)="depositAmount()">
+
+      <div class="mb-3">
+        <label class="form-label">Account Number</label>
+        <input type="text" class="form-control" formControlName="accountNumber">
+
+        <small class="text-danger"
+               *ngIf="depositForm.get('accountNumber')?.touched && depositForm.get('accountNumber')?.invalid">
+          Account number is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input type="number" class="form-control" formControlName="amount">
+
+        <small class="text-danger"
+               *ngIf="depositForm.get('amount')?.touched && depositForm.get('amount')?.hasError('required')">
+          Amount is required
+        </small>
+
+        <small class="text-danger"
+               *ngIf="depositForm.get('amount')?.touched && depositForm.get('amount')?.hasError('min')">
+          Amount must be greater than 0
+        </small>
+      </div>
+
+      <button type="submit" class="btn btn-warning" [disabled]="depositForm.invalid || isLoading">
+        {{ isLoading ? 'Processing...' : 'Deposit' }}
+      </button>
+
+    </form>
+
+    <div class="card mt-4" *ngIf="transaction">
+      <div class="card-header">Transaction Result</div>
+
+      <div class="card-body">
+        <p><strong>Transaction ID:</strong> {{ transaction.id }}</p>
+        <p><strong>Type:</strong> {{ transaction.transactionType }}</p>
+        <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+        <p><strong>Status:</strong> {{ transaction.status }}</p>
+        <p><strong>Date:</strong> {{ transaction.transactionDate }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>

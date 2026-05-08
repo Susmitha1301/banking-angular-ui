@@ -7,6 +7,7 @@ import {
   TransferRequest,
   TransactionResponse
 } from '../models/transaction.model';
+import { PageResponse} from '../models/transaction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +30,10 @@ export class TransactionService {
     return this.http.post<TransactionResponse>(`${this.baseUrl}/transfer`, request);
   }
 
-  getTransactionHistory(accountNumber: string): Observable<TransactionResponse[]> {
-    return this.http.get<TransactionResponse[]>(`${this.baseUrl}/history/${accountNumber}`);
+  getTransactionHistory(accountNumber: string): Observable<PageResponse<TransactionResponse>> {
+    return this.http.get<PageResponse<TransactionResponse>>(
+      `${this.baseUrl}/account/${accountNumber}`
+    );
   }
 
   getAllTransactions(): Observable<TransactionResponse[]> {

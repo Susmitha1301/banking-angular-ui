@@ -23,3 +23,11 @@ export interface TransactionResponse {
   status: string;
   transactionDate: string;
 }
+
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number
+}

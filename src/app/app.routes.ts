@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { CustomerListComponent } from './features/customers/customer-list/customer-list';
 import { AddCustomerComponent } from './features/customers/add-customer/add-customer';
 import { CustomerDetailsComponent } from './features/customers/customer-details/customer-details';
+import { AccountDetailsComponent } from './features/accounts/account-details/account-details';
 
 import { CustomerAccountsComponent } from './features/accounts/customer-accounts/customer-accounts';
 import { CreateAccountComponent } from './features/accounts/create-account/create-account';
@@ -19,6 +20,7 @@ export const routes: Routes = [
 
   { path: 'accounts', component: CustomerAccountsComponent },
   { path: 'create-account', component: CreateAccountComponent },
+  { path: 'account-details', component: AccountDetailsComponent },
 
   { path: 'deposit', component: DepositComponent },
   { path: 'withdraw', component: WithdrawComponent },

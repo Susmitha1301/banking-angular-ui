@@ -1,1 +1,79 @@
-<h2>create-account Page</h2>
+<div class="card shadow">
+  <div class="card-header bg-success text-white">
+    <h4 class="mb-0">Create Account</h4>
+  </div>
+
+  <div class="card-body">
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="accountForm" (ngSubmit)="createAccount()">
+
+      <div class="mb-3">
+        <label class="form-label">Customer ID</label>
+        <input type="number" class="form-control" formControlName="customerId">
+
+        <small class="text-danger"
+               *ngIf="accountForm.get('customerId')?.touched && accountForm.get('customerId')?.hasError('required')">
+          Customer ID is required
+        </small>
+
+        <small class="text-danger"
+               *ngIf="accountForm.get('customerId')?.touched && accountForm.get('customerId')?.hasError('min')">
+          Customer ID must be greater than 0
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Account Type</label>
+        <select class="form-control" formControlName="accountType">
+          <option value="SAVINGS">SAVINGS</option>
+          <option value="CHECKING">CHECKING</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Initial Deposit</label>
+        <input type="number" class="form-control" formControlName="initialDeposit">
+
+        <small class="text-danger"
+               *ngIf="accountForm.get('initialDeposit')?.touched && accountForm.get('initialDeposit')?.hasError('required')">
+          Initial deposit is required
+        </small>
+
+        <small class="text-danger"
+               *ngIf="accountForm.get('initialDeposit')?.touched && accountForm.get('initialDeposit')?.hasError('min')">
+          Initial deposit cannot be negative
+        </small>
+      </div>
+
+      <button type="submit"
+              class="btn btn-success"
+              [disabled]="accountForm.invalid || isLoading">
+        {{ isLoading ? 'Creating...' : 'Create Account' }}
+      </button>
+
+    </form>
+
+    <div class="card mt-4" *ngIf="createdAccount">
+      <div class="card-header">
+        Created Account Details
+      </div>
+
+      <div class="card-body">
+        <p><strong>Account Number:</strong> {{ createdAccount.accountNumber }}</p>
+        <p><strong>Customer ID:</strong> {{ createdAccount.customerId }}</p>
+        <p><strong>Account Type:</strong> {{ createdAccount.accountType }}</p>
+        <p><strong>Balance:</strong> {{ createdAccount.balance }}</p>
+        <p><strong>Status:</strong> {{ createdAccount.status }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>

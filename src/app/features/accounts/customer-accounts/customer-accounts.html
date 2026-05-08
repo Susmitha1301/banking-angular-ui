@@ -1,1 +1,63 @@
-<h2>Customer Accounts Page</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Customer Accounts</h3>
+  <a routerLink="/create-account" class="btn btn-success">Create Account</a>
+</div>
+
+<div class="card shadow mb-3">
+  <div class="card-body">
+    <form [formGroup]="customerForm" (ngSubmit)="loadAccountsByCustomer()">
+      <label class="form-label">Customer ID</label>
+
+      <div class="input-group">
+        <input type="number" class="form-control" formControlName="customerId">
+        <button type="submit" class="btn btn-success" [disabled]="customerForm.invalid || isLoading">
+          {{ isLoading ? 'Loading...' : 'Load Accounts' }}
+        </button>
+      </div>
+
+      <small class="text-danger"
+             *ngIf="customerForm.get('customerId')?.touched && customerForm.get('customerId')?.hasError('required')">
+        Customer ID is required
+      </small>
+
+      <small class="text-danger"
+             *ngIf="customerForm.get('customerId')?.touched && customerForm.get('customerId')?.hasError('min')">
+        Customer ID must be greater than 0
+      </small>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="isLoading" class="alert alert-info">
+  Loading accounts...
+</div>
+
+<table class="table table-bordered table-striped" *ngIf="!isLoading && accounts.length > 0">
+  <thead class="table-dark">
+  <tr>
+    <th>Account Number</th>
+    <th>Customer ID</th>
+    <th>Account Type</th>
+    <th>Balance</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let account of accounts">
+    <td>{{ account.accountNumber }}</td>
+    <td>{{ account.customerId }}</td>
+    <td>{{ account.accountType }}</td>
+    <td>{{ account.balance }}</td>
+    <td>{{ account.status }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="searched && !isLoading && accounts.length === 0 && !errorMessage" class="alert alert-warning">
+  No accounts found for this customer.
+</div>

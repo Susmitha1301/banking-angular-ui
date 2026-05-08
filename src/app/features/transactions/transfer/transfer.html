@@ -1,1 +1,74 @@
-<h2>Transfer Page</h2>
+<div class="card shadow">
+  <div class="card-header bg-danger text-white">
+    <h4 class="mb-0">Transfer Money</h4>
+  </div>
+
+  <div class="card-body">
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="transferForm" (ngSubmit)="transferAmount()">
+
+      <div class="mb-3">
+        <label class="form-label">From Account Number</label>
+        <input type="text" class="form-control" formControlName="fromAccountNumber">
+
+        <small class="text-danger"
+               *ngIf="transferForm.get('fromAccountNumber')?.touched && transferForm.get('fromAccountNumber')?.invalid">
+          From account number is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">To Account Number</label>
+        <input type="text" class="form-control" formControlName="toAccountNumber">
+
+        <small class="text-danger"
+               *ngIf="transferForm.get('toAccountNumber')?.touched && transferForm.get('toAccountNumber')?.invalid">
+          To account number is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input type="number" class="form-control" formControlName="amount">
+
+        <small class="text-danger"
+               *ngIf="transferForm.get('amount')?.touched && transferForm.get('amount')?.hasError('required')">
+          Amount is required
+        </small>
+
+        <small class="text-danger"
+               *ngIf="transferForm.get('amount')?.touched && transferForm.get('amount')?.hasError('min')">
+          Amount must be greater than 0
+        </small>
+      </div>
+
+      <button type="submit" class="btn btn-danger" [disabled]="transferForm.invalid || isLoading">
+        {{ isLoading ? 'Processing...' : 'Transfer' }}
+      </button>
+
+    </form>
+
+    <div class="card mt-4" *ngIf="transaction">
+      <div class="card-header">Transaction Result</div>
+
+      <div class="card-body">
+        <p><strong>Transaction ID:</strong> {{ transaction.id }}</p>
+        <p><strong>From Account:</strong> {{ transaction.fromAccountNumber }}</p>
+        <p><strong>To Account:</strong> {{ transaction.toAccountNumber }}</p>
+        <p><strong>Type:</strong> {{ transaction.transactionType }}</p>
+        <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+        <p><strong>Status:</strong> {{ transaction.status }}</p>
+        <p><strong>Date:</strong> {{ transaction.transactionDate }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>

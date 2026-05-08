@@ -1,1 +1,62 @@
-<h2>Transaction-history page</h2>
+<div class="card shadow mb-3">
+  <div class="card-header bg-dark text-white">
+    <h4 class="mb-0">Transaction History</h4>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="historyForm" (ngSubmit)="loadHistory()">
+      <label class="form-label">Account Number</label>
+
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="accountNumber">
+
+        <button type="submit" class="btn btn-dark" [disabled]="historyForm.invalid || isLoading">
+          {{ isLoading ? 'Loading...' : 'Load History' }}
+        </button>
+      </div>
+
+      <small class="text-danger"
+             *ngIf="historyForm.get('accountNumber')?.touched && historyForm.get('accountNumber')?.invalid">
+        Account number is required
+      </small>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="isLoading" class="alert alert-info">
+  Loading transaction history...
+</div>
+
+<table class="table table-bordered table-striped" *ngIf="!isLoading && transactions.length > 0">
+  <thead class="table-dark">
+  <tr>
+    <th>ID</th>
+    <th>From Account</th>
+    <th>To Account</th>
+    <th>Type</th>
+    <th>Amount</th>
+    <th>Status</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let transaction of transactions">
+    <td>{{ transaction.id }}</td>
+    <td>{{ transaction.fromAccountNumber }}</td>
+    <td>{{ transaction.toAccountNumber }}</td>
+    <td>{{ transaction.transactionType }}</td>
+    <td>{{ transaction.amount }}</td>
+    <td>{{ transaction.status }}</td>
+    <td>{{ transaction.transactionDate }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="searched && !isLoading && transactions.length === 0 && !errorMessage" class="alert alert-warning">
+  No transactions found for this account.
+</div>
