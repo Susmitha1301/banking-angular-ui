@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccountService } from '../../../core/services/account.service';
 import { AccountRequest, AccountResponse } from '../../../core/models/account.model';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
+import { SuccessMessageComponent } from '../../../shared/components/success-message/success-message';
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,  LoadingSpinnerComponent, ErrorMessageComponent, SuccessMessageComponent ],
   templateUrl: './create-account.html',
   styleUrl: './create-account.css'
 })
@@ -54,8 +57,11 @@ export class CreateAccountComponent {
         });
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Failed to create account. Please check customer ID and backend service.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Failed to create account. Please check customer ID and backend service.';
         this.isLoading = false;
       }
     });

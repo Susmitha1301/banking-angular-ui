@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CustomerService } from '../../../core/services/customer.service';
 import { CustomerResponse } from '../../../core/models/customer.model';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
 
 @Component({
   selector: 'app-customer-details',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LoadingSpinnerComponent, ErrorMessageComponent],
   templateUrl: './customer-details.html',
   styleUrl: './customer-details.css'
 })
@@ -41,8 +43,11 @@ export class CustomerDetailsComponent implements OnInit {
         this.customer = data;
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Failed to load customer details.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Failed to load customer details.';
         this.isLoading = false;
       }
     });

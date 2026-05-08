@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccountService } from '../../../core/services/account.service';
 import { AccountResponse } from '../../../core/models/account.model';
-import { RouterLink} from '@angular/router'
+import { RouterLink} from '@angular/router';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
 
 @Component({
   selector: 'app-customer-accounts',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LoadingSpinnerComponent, ErrorMessageComponent],
   templateUrl: './customer-accounts.html',
   styleUrl: './customer-accounts.css'
 })
@@ -47,8 +49,11 @@ export class CustomerAccountsComponent {
         this.accounts = response;
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Failed to load accounts for this customer.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Failed to load accounts for this customer.';
         this.isLoading = false;
       }
     });

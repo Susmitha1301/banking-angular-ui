@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccountService } from '../../../core/services/account.service';
 import { AccountResponse } from '../../../core/models/account.model';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
 
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent, ErrorMessageComponent],
   templateUrl: './account-details.html',
   styleUrl: './account-details.css'
 })
@@ -44,8 +46,11 @@ export class AccountDetailsComponent {
         this.account = response;
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Account not found or backend service failed.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Account not found or backend service failed.';
         this.isLoading = false;
       }
     });

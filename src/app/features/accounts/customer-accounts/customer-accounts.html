@@ -28,13 +28,8 @@
   </div>
 </div>
 
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
-</div>
-
-<div *ngIf="isLoading" class="alert alert-info">
-  Loading accounts...
-</div>
+<app-error-message [message]="errorMessage"></app-error-message>
+<app-loading-spinner *ngIf="isLoading" message="Loading accounts..."></app-loading-spinner>
 
 <table class="table table-bordered table-striped" *ngIf="!isLoading && accounts.length > 0">
   <thead class="table-dark">

@@ -5,13 +5,9 @@
 
   <div class="card-body">
 
-    <div *ngIf="successMessage" class="alert alert-success">
-      {{ successMessage }}
-    </div>
-
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
+    <app-success-message [message]="successMessage"></app-success-message>
+    <app-error-message [message]="errorMessage"></app-error-message>
+    <app-loading-spinner *ngIf="isLoading" message="Processing withdrawal..."></app-loading-spinner>
 
     <form [formGroup]="withdrawForm" (ngSubmit)="withdrawAmount()">
 

@@ -6,13 +6,8 @@
   </a>
 </div>
 
-<div *ngIf="isLoading" class="alert alert-info">
-  Loading customers...
-</div>
-
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
-</div>
+<app-loading-spinner *ngIf="isLoading" message="Loading customers..."></app-loading-spinner>
+<app-error-message [message]="errorMessage"></app-error-message>
 
 <table class="table table-bordered table-striped" *ngIf="!isLoading && customers.length > 0">
   <thead class="table-dark">

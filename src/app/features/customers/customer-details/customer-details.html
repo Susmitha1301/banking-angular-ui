@@ -1,12 +1,7 @@
 <h3>Customer Details</h3>
 
-<div *ngIf="isLoading" class="alert alert-info">
-  Loading customer details...
-</div>
-
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
-</div>
+<app-loading-spinner *ngIf="isLoading" message="Loading customer details..."></app-loading-spinner>
+<app-error-message [message]="errorMessage"></app-error-message>
 
 <div class="card shadow" *ngIf="customer">
   <div class="card-body">

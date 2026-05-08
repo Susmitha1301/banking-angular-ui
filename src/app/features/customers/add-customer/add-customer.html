@@ -5,13 +5,20 @@
 
   <div class="card-body">
 
-    <div *ngIf="successMessage" class="alert alert-success">
-      {{ successMessage }}
-    </div>
+    <app-success-message
+      *ngIf="successMessage"
+      [message]="successMessage">
+    </app-success-message>
 
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
+    <app-error-message
+      *ngIf="errorMessage"
+      [message]="errorMessage">
+    </app-error-message>
+
+    <app-loading-spinner
+      *ngIf="isLoading"
+      message="Saving customer...">
+    </app-loading-spinner>
 
     <form [formGroup]="customerForm" (ngSubmit)="submitCustomer()">
 

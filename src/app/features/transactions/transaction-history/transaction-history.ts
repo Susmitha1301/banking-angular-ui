@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionResponse } from '../../../core/models/transaction.model';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
+
 
 @Component({
   selector: 'app-transaction-history',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent, ErrorMessageComponent],
   templateUrl: './transaction-history.html',
   styleUrl: './transaction-history.css'
 })
@@ -46,8 +49,11 @@ export class TransactionHistoryComponent {
         this.transactions = response.content;
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Failed to load transaction history. Please check account number and backend service.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Failed to load transaction history. Please check account number and backend service.';
         this.isLoading = false;
       }
     });

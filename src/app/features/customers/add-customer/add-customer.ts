@@ -3,11 +3,20 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../../../core/services/customer.service';
 import { CustomerRequest } from '../../../core/models/customer.model';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
+import { SuccessMessageComponent } from '../../../shared/components/success-message/success-message';
 
 @Component({
   selector: 'app-add-customer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    LoadingSpinnerComponent,
+    ErrorMessageComponent,
+    SuccessMessageComponent
+  ],
   templateUrl: './add-customer.html',
   styleUrl: './add-customer.css'
 })
@@ -49,8 +58,11 @@ export class AddCustomerComponent {
         this.customerForm.reset();
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Failed to create customer. Please check backend service.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Failed to create customer. Please check backend service.';
         this.isLoading = false;
       }
     });

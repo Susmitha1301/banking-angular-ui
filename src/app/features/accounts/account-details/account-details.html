@@ -20,10 +20,8 @@
         Account number is required
       </small>
     </form>
-
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
+    <app-loading-spinner *ngIf="isLoading" message="Searching account..."></app-loading-spinner>
+    <app-error-message [message]="errorMessage"></app-error-message>
 
     <div class="card mt-3" *ngIf="account">
       <div class="card-header">

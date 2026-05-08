@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionResponse, TransferRequest } from '../../../core/models/transaction.model';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message';
+import { SuccessMessageComponent } from '../../../shared/components/success-message/success-message';
+
 
 @Component({
   selector: 'app-transfer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent, ErrorMessageComponent, SuccessMessageComponent],
   templateUrl: './transfer.html',
   styleUrl: './transfer.css'
 })
@@ -54,8 +58,11 @@ export class TransferComponent {
         });
         this.isLoading = false;
       },
-      error: () => {
-        this.errorMessage = 'Transfer failed. Please check accounts, balance, and backend service.';
+      error: (error) => {
+        this.errorMessage =
+          error?.error?.message ||
+          error?.error ||
+          'Transfer failed. Please check accounts, balance, and backend service.';
         this.isLoading = false;
       }
     });
