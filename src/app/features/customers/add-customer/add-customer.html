@@ -1,1 +1,81 @@
-<h2>Add Customer Page</h2>
+<div class="card shadow">
+  <div class="card-header bg-primary text-white">
+    <h4 class="mb-0">Add Customer</h4>
+  </div>
+
+  <div class="card-body">
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="customerForm" (ngSubmit)="submitCustomer()">
+
+      <div class="mb-3">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" formControlName="firstName">
+
+        <small class="text-danger"
+               *ngIf="customerForm.get('firstName')?.touched && customerForm.get('firstName')?.invalid">
+          First name is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-control" formControlName="lastName">
+
+        <small class="text-danger"
+               *ngIf="customerForm.get('lastName')?.touched && customerForm.get('lastName')?.invalid">
+          Last name is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email">
+
+        <small class="text-danger"
+               *ngIf="customerForm.get('email')?.touched && customerForm.get('email')?.hasError('required')">
+          Email is required
+        </small>
+
+        <small class="text-danger"
+               *ngIf="customerForm.get('email')?.touched && customerForm.get('email')?.hasError('email')">
+          Enter valid email
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input type="text" class="form-control" formControlName="phoneNumber">
+
+        <small class="text-danger"
+               *ngIf="customerForm.get('phoneNumber')?.touched && customerForm.get('phoneNumber')?.invalid">
+          Phone number is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" formControlName="address">
+
+        <small class="text-danger"
+               *ngIf="customerForm.get('address')?.touched && customerForm.get('address')?.invalid">
+          Address is required
+        </small>
+      </div>
+
+      <button type="submit"
+              class="btn btn-primary"
+              [disabled]="customerForm.invalid || isLoading">
+        {{ isLoading ? 'Saving...' : 'Create Customer' }}
+      </button>
+
+    </form>
+  </div>
+</div>

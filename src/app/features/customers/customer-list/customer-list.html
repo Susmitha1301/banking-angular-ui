@@ -1,1 +1,47 @@
-<h2>customer-list page</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Customer List</h3>
+
+  <a routerLink="/add-customer" class="btn btn-primary">
+    Add Customer
+  </a>
+</div>
+
+<div *ngIf="isLoading" class="alert alert-info">
+  Loading customers...
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<table class="table table-bordered table-striped" *ngIf="!isLoading && customers.length > 0">
+  <thead class="table-dark">
+  <tr>
+    <th>ID</th>
+    <th>Full Name</th>
+    <th>Email</th>
+    <th>Phone Number</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let customer of customers">
+    <td>{{ customer.id }}</td>
+    <td>{{ customer.fullName }}</td>
+    <td>{{ customer.email }}</td>
+    <td>{{ customer.phoneNumber }}</td>
+    <td>{{ customer.status }}</td>
+    <td>
+      <a [routerLink]="['/customer-details', customer.id]" class="btn btn-sm btn-info">
+        View
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!isLoading && customers.length === 0" class="alert alert-warning">
+  No customers found.
+</div>
